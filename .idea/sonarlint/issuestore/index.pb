@@ -9,3 +9,7 @@ W
 'contracts/institution-verification.clar,d/d/dd6f29d581e4fc80d30e9eb12d64363ad190bf89
 V
 &tests/institution-verification.test.ts,5/e/5edadce64a6eee8f2384257efbac2d5b1f7dd860
+I
+contracts/scheduling.clar,0/8/0896d3c801c342991613f2d699cfa4d7ced7380a
+H
+tests/scheduling.test.ts,1/b/1b3c11160f928688289b31b25322608cbac58d71
