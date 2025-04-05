@@ -13,3 +13,7 @@ I
 contracts/scheduling.clar,0/8/0896d3c801c342991613f2d699cfa4d7ced7380a
 H
 tests/scheduling.test.ts,1/b/1b3c11160f928688289b31b25322608cbac58d71
+M
+contracts/usage-tracking.clar,e/9/e9b09179d691ec658ec849bf83481dab4134e530
+L
+tests/usage-tracking.test.ts,f/3/f3ccbb830bb90abf63cbc09d0b13119cf315d93c

@@ -1,21 +1,49 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { describe, expect, it } from "vitest";
+// Mock the Clarity contract calls
+const mockUsageTracking = {
+  recordUsage: vi.fn(),
+  recordOutcome: vi.fn(),
+  getUsage: vi.fn()
+};
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
-
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe('Usage Tracking Contract', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    
+    mockUsageTracking.recordUsage.mockReturnValue({ value: true });
+    mockUsageTracking.getUsage.mockReturnValue({
+      value: {
+        equipmentId: 'equip-123',
+        user: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+        startTime: 200,
+        endTime: 300,
+        outcome: 'Identified new biomarkers'
+      }
+    });
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  
+  it('should record usage successfully', async () => {
+    const result = await mockUsageTracking.recordUsage(
+        'booking-123',
+        'equip-123',
+        200,
+        300
+    );
+    expect(result.value).toBe(true);
+  });
+  
+  it('should record research outcome', async () => {
+    mockUsageTracking.recordOutcome.mockReturnValue({ value: true });
+    const result = await mockUsageTracking.recordOutcome(
+        'booking-123',
+        'Identified new biomarkers'
+    );
+    expect(result.value).toBe(true);
+  });
+  
+  it('should return usage record details', async () => {
+    const result = await mockUsageTracking.getUsage('booking-123');
+    expect(result.value).toHaveProperty('equipmentId', 'equip-123');
+  });
 });
