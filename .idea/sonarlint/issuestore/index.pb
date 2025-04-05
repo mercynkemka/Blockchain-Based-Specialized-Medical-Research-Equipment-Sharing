@@ -5,3 +5,7 @@ Q
 !contracts/equipment-registry.clar,a/2/a2688cd1bf82523f37e12000827bd1f7114a82ae
 P
  tests/equipment-registry.test.ts,c/7/c7f22c92d49f765605aef462a8541c2a962084c8
+W
+'contracts/institution-verification.clar,d/d/dd6f29d581e4fc80d30e9eb12d64363ad190bf89
+V
+&tests/institution-verification.test.ts,5/e/5edadce64a6eee8f2384257efbac2d5b1f7dd860

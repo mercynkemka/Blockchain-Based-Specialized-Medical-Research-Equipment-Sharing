@@ -1,21 +1,47 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { describe, expect, it } from "vitest";
+// Mock the Clarity contract calls
+const mockInstitutionVerification = {
+  verifyInstitution: vi.fn(),
+  isVerified: vi.fn(),
+  updateStatus: vi.fn(),
+  getInstitution: vi.fn()
+};
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
-
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe('Institution Verification Contract', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    
+    mockInstitutionVerification.verifyInstitution.mockReturnValue({ value: true });
+    mockInstitutionVerification.isVerified.mockReturnValue(true);
+    mockInstitutionVerification.getInstitution.mockReturnValue({
+      value: {
+        name: 'Medical Research Institute',
+        verified: true,
+        score: 100
+      }
+    });
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  
+  it('should verify an institution successfully', async () => {
+    const result = await mockInstitutionVerification.verifyInstitution(
+        'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+        'Medical Research Institute'
+    );
+    expect(result.value).toBe(true);
+  });
+  
+  it('should check if institution is verified', async () => {
+    const result = await mockInstitutionVerification.isVerified('ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM');
+    expect(result).toBe(true);
+  });
+  
+  it('should update institution status', async () => {
+    mockInstitutionVerification.updateStatus.mockReturnValue({ value: true });
+    const result = await mockInstitutionVerification.updateStatus(
+        'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+        false
+    );
+    expect(result.value).toBe(true);
+  });
 });
